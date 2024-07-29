@@ -1,0 +1,11 @@
+python -m venv floder_Name
+
+floder_Name\Scripts\activate   == window
+source floder_Name/bin/activate == linux
+
+pip install flask
+
+# run flask
+
+cd ProjectAPI
+python app.py
