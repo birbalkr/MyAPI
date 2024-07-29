@@ -1,40 +1,40 @@
 from flask import Flask, request, jsonify
+import json, sqlite3
 
 app=Flask(__name__)
 
-book_list=[
-    {
-        'id':0,
-        'title':'MyBook',
-        'language':'Python',
-    },
-    {
-        'id':0,
-        'title':'MyBook',
-        'language':'Python',
-    }
-]
+def db_connection():
+    conn = None
+    try:
+        conn = sqlite3.connect('books.sqlite')
+    except sqlite3.error as e:
+        print(e)
+    return conn
 
-@app.route('/books',methods=['GET','PUT'])
+@app.route('/books',methods=['GET','POST'])
 def books():
+    conn=db_connection()
+    cursor = conn.cursor()
+
+
     if request.method=='GET':
-        if len(book_list)>0:
-            return jsonify(book_list)
-        else:
-            'Nothing Fount',404
+            cursor=conn.execute('SELECT * FROM book')
+            books=[
+                 dict(id=row[0],author=row[1],language=row[2],title=row[3])
+                 for row in cursor.fetchall()
+            ]
+            if books is not None:
+                 return jsonify(books)
     if request.method=='POST':
+        new_author=request.form['author']
         new_title=request.form['title']
         new_lang=request.form['language']
-        iD=book_list[-1]['id']+1
+        sql="""INSERT INTO book(author,title,language)
+        VALUES(?, ?, ?)"""
+        cursor = cur.execute(sql,(new_author,new_lang,new_title))
+        conn.commit()
+        return f"Book with the id:{cursor.las}"
 
-        new_obj={
-            'id':iD,
-            'title':new_title,
-            'language':new_lang
-        }
-        book_list.append(new_obj)
-        return jsonify(book_list),201
-    
 
 @app.route('/')
 def index():
