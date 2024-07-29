@@ -11,3 +11,8 @@ if __name__=='__main__':
     app.run()
 # run 
 # python app.py
+
+# Dynamic Routing
+@app.route('/<name>')
+def print_name(name):
+    return 'Hii, {}'.format(name)
