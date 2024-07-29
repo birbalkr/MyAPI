@@ -4,9 +4,10 @@ app=Flask(__name__)
 
 @app.route('/')
 def index():
-    return 'hello API' 
-# Linux
-# export FLASK_APP=app.py
-# Window
-# set FLASK_APP=app.py
-# flask run
+    return 'hello' 
+
+# progammatically
+if __name__=='__main__':
+    app.run()
+# run 
+# python app.py
