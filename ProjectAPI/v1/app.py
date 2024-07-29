@@ -83,7 +83,7 @@ products = {
   ]
 }
 # routes
-@app.route('/product',method=['GET'])
+@app.route('/product',methods=['GET','POST'])
 def product():
     if request.method=='GET':
         if len(products)>0:
